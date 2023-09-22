@@ -772,8 +772,9 @@ class GaudiTrainer(Trainer):
             self.log_evaluate_save_time = 0
         else:
             self.log_evaluate_save_time = None
+            # Disable record_shapes to reduce memory usage in profiling.
+            hb_profiler = HabanaProfile(warmup=self.args.profiling_warmup_steps, active=self.args.profiling_steps, record_shapes=self.args.profiling_record_shapes)
 
-        hb_profiler = HabanaProfile(warmup=self.args.profiling_warmup_steps, active=self.args.profiling_steps)
         hb_profiler.start()
 
         total_batched_samples = 0
